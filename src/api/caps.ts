@@ -1,6 +1,8 @@
 import { apiRequest } from './client';
 import type {
+  AccessSettings,
   Agenda,
+  AppConfig,
   Appointment,
   AppointmentStatus,
   AvailabilityBlock,
@@ -49,7 +51,9 @@ export interface BookingData {
 
 export const capsApi = {
   // Configuración
-  getConfig: () => apiRequest<{ appointmentDurationMinutes: number; timeZone: string }>('GET', '/config'),
+  getConfig: () => apiRequest<AppConfig>('GET', '/config'),
+  getSettings: () => apiRequest<AccessSettings>('GET', '/settings'),
+  updateSettings: (data: Partial<AccessSettings>) => apiRequest<AccessSettings>('PATCH', '/settings', { body: data }),
 
   // Autenticación y perfil
   getMe: () => apiRequest<UserProfile>('GET', '/auth/me'),

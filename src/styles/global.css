@@ -432,6 +432,11 @@ a { color: var(--color-primary); }
 .admin-module-value strong { font-size: 1.75rem; line-height: 1.2; }
 .admin-module-value span { font-size: 0.8rem; color: var(--color-muted); }
 .admin-directory { margin-top: var(--space-6); }
+.admin-access { margin-top: var(--space-6); }
+.admin-access h2 { display: inline-flex; align-items: center; gap: var(--space-2); }
+.admin-access-options { display: grid; gap: var(--space-3); }
+.admin-access-option { padding: var(--space-3) var(--space-4); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 8px; }
+.admin-access-option p { margin: 0 0 0 calc(20px + var(--space-2)); }
 .admin-user-identity { min-width: 0; overflow-wrap: anywhere; }
 .admin-section-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-4); }
 .admin-section-heading h2 { margin: 0; }

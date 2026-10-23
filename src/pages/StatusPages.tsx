@@ -39,6 +39,28 @@ export function InactiveAccountPage() {
   );
 }
 
+export function AdminOnlyPage() {
+  const { firebaseUser, signOut } = useAuth();
+  return (
+    <StatusCard title="Acceso restringido">
+      <p>Por el momento solo pueden ingresar administradores del CAPS. Volvé a intentar más adelante.</p>
+      {firebaseUser ? <button className="btn" onClick={() => signOut()}>Salir</button> : <Link className="btn" to="/">Ir al inicio</Link>}
+    </StatusCard>
+  );
+}
+
+/** Se muestra a quien no está dado de alta en CAPS mientras no se aceptan usuarios nuevos. */
+export function RegistrationClosedPage() {
+  const { firebaseUser, signOut } = useAuth();
+  return (
+    <StatusCard title="Próximamente">
+      <p>Pronto se habilitará la incorporación de nuevos usuarios.</p>
+      <p className="muted">Si ya tenés una cuenta en el CAPS, ingresá con el email con el que te dieron de alta.</p>
+      {firebaseUser ? <button className="btn" onClick={() => signOut()}>Salir</button> : <Link className="btn" to="/ingresar">Ingresar</Link>}
+    </StatusCard>
+  );
+}
+
 export function OfflinePage() {
   const { refreshProfile, signOut } = useAuth();
   return (
