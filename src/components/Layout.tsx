@@ -124,7 +124,7 @@ export function Layout() {
           <p className="muted">Ante una emergencia, comunicate con el servicio de emergencias de tu zona.</p>
           <div className="footer-credits">
             <p>&copy; {new Date().getFullYear()} CAPS Las Isletillas. Todos los derechos reservados.</p>
-            <p>Desarrollado por <strong>Escuela Manuel Belgrano</strong>, en colaboración con <strong>LitaCloud</strong>.</p>
+            <p>Desarrollado por <strong>Colegio Gabriela Mistral - Isletillas, Córdoba</strong>, en colaboración con <strong>LitaCloud</strong>.</p>
           </div>
         </div>
       </footer>
