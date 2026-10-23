@@ -20,7 +20,14 @@ import { ProfessionalsAdminPage } from './pages/admin/ProfessionalsAdminPage';
 import { SpecialtiesAdminPage } from './pages/admin/SpecialtiesAdminPage';
 import { UsersAdminPage } from './pages/admin/UsersAdminPage';
 import { DashboardAdminPage } from './pages/admin/DashboardAdminPage';
-import { ForbiddenPage, InactiveAccountPage, NotFoundPage, OfflinePage } from './pages/StatusPages';
+import {
+  AdminOnlyPage,
+  ForbiddenPage,
+  InactiveAccountPage,
+  NotFoundPage,
+  OfflinePage,
+  RegistrationClosedPage,
+} from './pages/StatusPages';
 import type { Role } from './api/types';
 
 const STAFF: Role[] = ['APPOINTMENT_MANAGER', 'ADMIN', 'SUPER_ADMIN'];
@@ -41,6 +48,8 @@ export function App() {
             <Route path="completar-registro" element={<CompleteRegistrationPage />} />
             <Route path="invitacion" element={<InvitationPage />} />
             <Route path="cuenta-inactiva" element={<InactiveAccountPage />} />
+            <Route path="acceso-restringido" element={<AdminOnlyPage />} />
+            <Route path="registro-cerrado" element={<RegistrationClosedPage />} />
             <Route path="sin-conexion" element={<OfflinePage />} />
             <Route path="sin-permiso" element={<ForbiddenPage />} />
 

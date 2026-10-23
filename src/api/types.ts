@@ -94,6 +94,17 @@ export interface Agenda {
   appointments: Appointment[];
 }
 
+/** Restricciones de acceso que se activan desde el panel de administración. */
+export interface AccessSettings {
+  adminOnlyLogin: boolean;
+  registrationClosed: boolean;
+}
+
+export interface AppConfig extends AccessSettings {
+  appointmentDurationMinutes: number;
+  timeZone: string;
+}
+
 export interface Invitation {
   invitationId: string;
   expiresAt: string;

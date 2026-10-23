@@ -18,6 +18,8 @@ export function ProtectedRoute({ roles, children }: { roles?: Role[]; children: 
   if (status === 'signedOut') return <Navigate to={`/ingresar?redirect=${redirect}`} replace />;
   if (status === 'needsRegistration') return <Navigate to={`/completar-registro?redirect=${redirect}`} replace />;
   if (status === 'inactive') return <Navigate to="/cuenta-inactiva" replace />;
+  if (status === 'adminOnly') return <Navigate to="/acceso-restringido" replace />;
+  if (status === 'registrationClosed') return <Navigate to="/registro-cerrado" replace />;
   if (status === 'error' || !profile) return <Navigate to="/sin-conexion" replace />;
   if (roles && !roles.includes(profile.role)) return <Navigate to="/sin-permiso" replace />;
   return <>{children}</>;

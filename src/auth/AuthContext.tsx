@@ -21,10 +21,20 @@ import type { UserProfile } from '../api/types';
  * - signedOut: no hay sesión.
  * - needsRegistration: hay sesión de Firebase pero falta crear el usuario en CAPS.
  * - inactive: la cuenta de CAPS fue desactivada.
+ * - adminOnly: por ahora solo pueden ingresar administradores.
+ * - registrationClosed: la persona no está dada de alta y no se aceptan usuarios nuevos.
  * - ready: sesión completa, `profile` tiene los datos del usuario.
  * - error: no se pudo hablar con el servidor.
  */
-export type AuthStatus = 'loading' | 'signedOut' | 'needsRegistration' | 'inactive' | 'ready' | 'error';
+export type AuthStatus =
+  | 'loading'
+  | 'signedOut'
+  | 'needsRegistration'
+  | 'inactive'
+  | 'adminOnly'
+  | 'registrationClosed'
+  | 'ready'
+  | 'error';
 
 interface AuthContextValue {
   status: AuthStatus;
@@ -65,6 +75,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(null);
       if (error instanceof ApiError && error.code === 'USER_NOT_REGISTERED') setStatus('needsRegistration');
       else if (error instanceof ApiError && error.code === 'USER_INACTIVE') setStatus('inactive');
+      else if (error instanceof ApiError && error.code === 'ADMIN_ONLY_LOGIN') setStatus('adminOnly');
+      else if (error instanceof ApiError && error.code === 'REGISTRATION_CLOSED') setStatus('registrationClosed');
       else setStatus('error');
     }
   }, []);

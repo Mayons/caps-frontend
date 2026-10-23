@@ -1,11 +1,70 @@
-import { ArrowRight, CalendarDays, RefreshCw, ShieldCheck, Stethoscope, UserPlus, Users } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, CalendarDays, LockKeyhole, RefreshCw, ShieldCheck, Stethoscope, UserPlus, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { capsApi } from '../../api/caps';
-import { ROLE_LABELS } from '../../api/types';
+import { errorMessage } from '../../api/client';
+import { ROLE_LABELS, type AccessSettings } from '../../api/types';
 import { useAuth } from '../../auth/AuthContext';
+import { CheckboxField } from '../../components/Field';
 import { Alert, EmptyState, Loading, PageHeader, StatusBadge } from '../../components/Feedback';
 import { fullName } from '../../utils/dates';
 import { useAsync } from '../../utils/useAsync';
+
+const ACCESS_OPTIONS: { key: keyof AccessSettings; label: string; hint: string }[] = [
+  {
+    key: 'adminOnlyLogin',
+    label: 'Solo administradores',
+    hint: 'Pacientes, profesionales y gestores de turnos no pueden ingresar.',
+  },
+  {
+    key: 'registrationClosed',
+    label: 'Registro cerrado',
+    hint: 'Quien no esté dado de alta ve el aviso de que pronto se habilitará la incorporación de nuevos usuarios.',
+  },
+];
+
+function AccessSettingsPanel() {
+  const settings = useAsync(() => capsApi.getSettings(), []);
+  const [saving, setSaving] = useState<keyof AccessSettings | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const toggle = async (key: keyof AccessSettings, value: boolean) => {
+    setSaving(key);
+    setError(null);
+    try {
+      settings.setData(await capsApi.updateSettings({ [key]: value }));
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  return (
+    <section className="admin-access" aria-labelledby="access-title">
+      <div className="admin-section-heading">
+        <h2 id="access-title"><LockKeyhole size={20} aria-hidden="true" />Acceso al sistema</h2>
+      </div>
+      {(settings.error || error) && <Alert>{settings.error ?? error}</Alert>}
+      {settings.loading && <Loading />}
+      {settings.data && (
+        <div className="admin-access-options">
+          {ACCESS_OPTIONS.map(({ key, label, hint }) => (
+            <div key={key} className="admin-access-option">
+              <CheckboxField
+                label={label}
+                checked={settings.data![key]}
+                disabled={saving !== null}
+                onChange={(event) => toggle(key, event.target.checked)}
+              />
+              <p className="muted small">{hint}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
 
 export function DashboardAdminPage() {
   const { profile } = useAuth();
@@ -50,6 +109,8 @@ export function DashboardAdminPage() {
           </Link>
         ))}
       </nav>
+
+      <AccessSettingsPanel />
 
       <section className="admin-directory" aria-labelledby="directory-title">
         <div className="admin-section-heading">

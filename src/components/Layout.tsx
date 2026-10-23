@@ -97,7 +97,7 @@ export function Layout() {
                     Salir
                   </button>
                 </>
-              ) : status === 'needsRegistration' || status === 'inactive' || status === 'error' ? (
+              ) : status !== 'loading' && status !== 'signedOut' ? (
                 <button className="btn btn-light" onClick={handleSignOut}>
                   Salir
                 </button>

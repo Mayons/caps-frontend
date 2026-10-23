@@ -3,9 +3,12 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { firebaseErrorMessage, useAuth } from '../auth/AuthContext';
 import { safeRedirect } from '../auth/ProtectedRoute';
 import { errorMessage } from '../api/client';
+import { capsApi } from '../api/caps';
 import { TextField } from '../components/Field';
-import { Alert } from '../components/Feedback';
+import { Alert, Loading } from '../components/Feedback';
+import { useAsync } from '../utils/useAsync';
 import { hasErrors, isEmail, isPhone, type Errors } from '../utils/validation';
+import { AdminOnlyPage, RegistrationClosedPage } from './StatusPages';
 
 interface RegisterForm {
   firstName: string;
@@ -40,8 +43,12 @@ export function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
+  const appConfig = useAsync(() => capsApi.getConfig(), []);
+
   useEffect(() => {
     if (status === 'ready') navigate(redirect, { replace: true });
+    if (status === 'adminOnly') navigate('/acceso-restringido', { replace: true });
+    if (status === 'registrationClosed') navigate('/registro-cerrado', { replace: true });
   }, [status, redirect, navigate]);
 
   const update = (field: keyof RegisterForm) => (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -68,6 +75,10 @@ export function RegisterPage() {
       setSubmitting(false);
     }
   };
+
+  if (appConfig.loading) return <Loading />;
+  if (appConfig.data?.adminOnlyLogin) return <AdminOnlyPage />;
+  if (appConfig.data?.registrationClosed) return <RegistrationClosedPage />;
 
   return (
     <section className="card auth-card">

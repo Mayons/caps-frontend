@@ -22,6 +22,8 @@ export function LoginPage() {
     if (status === 'ready') navigate(redirect, { replace: true });
     if (status === 'needsRegistration') navigate(`/completar-registro?redirect=${encodeURIComponent(redirect)}`, { replace: true });
     if (status === 'inactive') navigate('/cuenta-inactiva', { replace: true });
+    if (status === 'adminOnly') navigate('/acceso-restringido', { replace: true });
+    if (status === 'registrationClosed') navigate('/registro-cerrado', { replace: true });
   }, [status, redirect, navigate]);
 
   const handleSubmit = async (event: FormEvent) => {
