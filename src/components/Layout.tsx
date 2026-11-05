@@ -67,7 +67,7 @@ export function Layout() {
             <span className="brand-mark" aria-hidden="true">+</span>
             <span>
               <strong>CAPS</strong>
-              <small>Las Isletillas</small>
+              <small>Hernando</small>
             </span>
           </Link>
 
@@ -120,7 +120,7 @@ export function Layout() {
 
       <footer className="site-footer">
         <div className="container">
-          <p>Centro de Atención Primaria de la Salud — Comuna de Las Isletillas</p>
+          <p>Centro de Atención Primaria de la Salud — Hospital Pascual Tirro</p>
           <p className="muted">Ante una emergencia, comunicate con el servicio de emergencias de tu zona.</p>
           <div className="footer-credits">
             <p>&copy; {new Date().getFullYear()} CAPS Las Isletillas. Todos los derechos reservados.</p>
